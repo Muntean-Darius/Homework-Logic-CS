@@ -1,29 +1,18 @@
 from anytree import Node, RenderTree
 
 l = [
-    "(((P⇒Q)∨S)⇔T)",
-    "((P⇒(Q∧(S⇒T))))",
-    "(¬(B(¬Q))∧R)",
-    "(P∧((¬Q)∧(¬(¬(Q⇔(¬R))))))",
-    "((P∨Q)⇒¬(P∨Q))∧(P∨(¬(¬Q)))",
-    "((P¬Q",
-    "(∨PQ)",
-    "((P∨Q)T∨G)",
-    "(P∨Q)",
-    "(¬P)",
-    "(¬(P∨Q))",
-    "((N∧M∧J))",
-    "(⇒P)Q",
-    "(Q)¬",
-    "",
-    "P",
-    "¬(Q)",
-    "¬(P⇒Q)"
+    '(((P⇒Q)∨S)⇔T)',
+    '((P⇒(Q∧(S⇒T))))',
+    '(¬(B(¬Q))∧R)',
+    '((P⇒Q)∧((¬Q)∧P))',
+    '((P⇒Q)⇒(Q⇒P))',
+    '((¬(P∨Q))∧(¬Q))'
 ]
 
 
 def wff(p):
     k = 0
+    t = 0
     if len(p) == 1:
         print("Arrangement is correct")
         print("The proposition is a well formed propositional formulae")
@@ -80,7 +69,10 @@ def wff(p):
         if root:
             for pre, fill, node in RenderTree(root):
                 print(f"{pre}{node.name}")
-        # interpretation(RenderTree(root),{'P':True,'Q':True,'S':False,'T':True},root)
+        # interpretation(RenderTree(root), {'P': False, 'Q': True, 'R': True, 'S': False, 'T': False}, root)
+        # interpretation(RenderTree(root), {'P': True, 'Q': False, 'R': True, 'S': False, 'T': False}, root)
+        interpretation(RenderTree(root), {'P': True, 'Q': True, 'R': True, 'S': False, 'T': False}, root)
+
         print()
 
 
@@ -144,6 +136,11 @@ def interpretation(p, I, root):
     for i in p:
         if i.node.name.isalpha() and i.node.name.isupper():
             i.node.name = I[i.node.name]
+
+    print('We introduce the truth values into the tree')
+
+    for pre, fill, node in RenderTree(root):
+        print(f"{pre}{node.name}")
 
     def evaluate_node(node):
         if node is None:

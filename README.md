@@ -17,7 +17,7 @@ To install the necessary tools for the program to work, follow these steps:
    pip install anytree
 
 ## How to use the program
-1.Clone the repository (if applicable):
+Clone the repository (if applicable):
 
 `
 git clone <repository-url>

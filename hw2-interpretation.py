@@ -1,15 +1,15 @@
+from copy import deepcopy
+
 from anytree import Node, RenderTree
 
 l = [
-    '(((P⇒Q)∨S)⇔T)',
-    '((P⇒(Q∧(S⇒T))))',
-    '(¬(B(¬Q))∧R)',
-    '((P⇒Q)∧((¬Q)∧P))',
-    '((P⇒Q)⇒(Q⇒P))',
-    '((¬(P∨Q))∧(¬Q))'
+    '((P⇒Q)∧((¬Q)∧(¬P)))',
+    '((P⇒Q)⇒((Q⇒S)⇒((P∨Q)⇒R)))',
+    '((¬(P⇒Q))⇔((P∨R)∧((¬P)⇒Q)))',
+    '((P⇔Q)⇔(¬(P⇒(¬Q))))'
 ]
 
-
+correct=[]
 def wff(p):
     k = 0
     t = 0
@@ -65,13 +65,8 @@ def wff(p):
     if k == 0:
         print("Arrangement is correct")
         print("The proposition is a well formed propositional formulae")
-        root = tree(p)
-        if root:
-            for pre, fill, node in RenderTree(root):
-                print(f"{pre}{node.name}")
-        # interpretation(RenderTree(root), {'P': False, 'Q': True, 'R': True, 'S': False, 'T': False}, root)
-        # interpretation(RenderTree(root), {'P': True, 'Q': False, 'R': True, 'S': False, 'T': False}, root)
-        interpretation(RenderTree(root), {'P': True, 'Q': True, 'R': True, 'S': False, 'T': False}, root)
+        correct.append(p)
+
 
         print()
 
@@ -132,14 +127,18 @@ def tree(p):
     return root
 
 
-def interpretation(p, I, root):
-    for i in p:
-        if i.node.name.isalpha() and i.node.name.isupper():
-            i.node.name = I[i.node.name]
+def copy_tree(root):
+    return deepcopy(root)
+
+
+def interpretation(I, root):
+    copied_root = copy_tree(root)
 
     print('We introduce the truth values into the tree')
 
-    for pre, fill, node in RenderTree(root):
+    for pre, fill, node in RenderTree(copied_root):
+        if node.name.isalpha() and node.name.isupper():
+            node.name = I[node.name]
         print(f"{pre}{node.name}")
 
     def evaluate_node(node):
@@ -152,38 +151,23 @@ def interpretation(p, I, root):
             evaluate_node(node.children[1])
 
         if node.name == '⇒':
-            if node.children[0].name == False and node.children[1].name == True:
-                node.name = False
-            else:
-                node.name = True
+            node.name = not node.children[0].name or node.children[1].name
 
         elif node.name == '∨':
-            if node.children[0].name == True or node.children[1].name == True:
-                node.name = True
-            else:
-                node.name = False
+            node.name = node.children[0].name or node.children[1].name
 
         elif node.name == '⇔':
-            if node.children[0].name == node.children[1].name:
-                node.name = True
-            else:
-                node.name = False
+            node.name = node.children[0].name == node.children[1].name
 
         elif node.name == '∧':
-            if node.children[0].name == False or node.children[1].name == False:
-                node.name = False
-            else:
-                node.name = True
+            node.name = node.children[0].name and node.children[1].name
 
         elif node.name == '¬':
-            if node.children[0].name == True:
-                node.name = False
-            else:
-                node.name = True
+            node.name = not node.children[0].name
 
-    evaluate_node(root)
+    evaluate_node(copied_root)
 
-    print(f'The value of the proposition is {root.name} for the interpretation: {I}')
+    print(f'The value of the proposition is {copied_root.name} for the interpretation: {I}\n')
 
 
 for i in l:
@@ -245,3 +229,14 @@ for i in l:
         print("We check if the proposition has the correct arrangement of elements")
         print()
         wff(i)
+
+
+print(l[3])
+root = tree(l[3])
+for pre, fill, node in RenderTree(root):
+    print(f"{pre}{node.name}")
+
+interpretation({'P': True, 'Q': True}, root)
+interpretation({'P': True, 'Q': False}, root)
+interpretation({'P': False, 'Q': True}, root)
+interpretation({'P': False, 'Q': False}, root)

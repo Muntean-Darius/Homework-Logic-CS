@@ -47,6 +47,7 @@ interpretation({'P': True, 'Q': False}, root)
 ```
 Example of interpretation output
 ```
+((P⇔Q)⇔(¬(P⇒(¬Q))))
 ⇔
 ├── P
 └── Q

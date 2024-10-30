@@ -45,6 +45,43 @@ Interpretations: The script includes an example interpretation at the bottom, wh
 interpretation({'P': True, 'Q': True}, root)
 interpretation({'P': True, 'Q': False}, root)
 ```
+Example of interpretation output
+```
+⇔
+├── P
+└── Q
+¬
+└── Q
+⇒
+├── P
+└── ¬
+    └── Q
+¬
+└── ⇒
+    ├── P
+    └── ¬
+        └── Q
+⇔
+├── ⇔
+│   ├── P
+│   └── Q
+└── ¬
+    └── ⇒
+        ├── P
+        └── ¬
+            └── Q
+We introduce the truth values into the tree
+⇔
+├── ⇔
+│   ├── True
+│   └── True
+└── ¬
+    └── ⇒
+        ├── True
+        └── ¬
+            └── True
+The value of the proposition is True for the interpretation: {'P': True, 'Q': True}
+```
 Example of Program Output
 When you run the program, it will check each formula in the list l and print whether it is well-formed or not. For example:
 ```

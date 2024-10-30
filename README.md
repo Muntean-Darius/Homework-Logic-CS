@@ -19,32 +19,32 @@ To install the necessary tools for the program to work, follow these steps:
 ## How to use the program
 Clone the repository (if applicable):
 
-`
+```
 git clone <repository-url>
 cd <repository-directory> 
-`
+```
 Open the Python script: Open the script file containing the program in your preferred code editor.
 
 Modify the input formulas: The list of propositional formulas is defined at the beginning of the script. You can modify the list l with any well-formed formulas you want to check.
 
 Example:
-`
+```
 l = [
     '((P⇒Q)∧((¬Q)∧(¬P)))',
     '((P⇒Q)⇒((Q⇒S)⇒((P∨Q)⇒R)))',
     ...
 ]
-`
+```
 Run the program: Execute the script using Python:
-`
+```
 python <script-name>.py
-`
+```
 Interpretations: The script includes an example interpretation at the bottom, which you can uncomment and modify. Add more interpretations as needed:
 
-`
+```
 interpretation({'P': True, 'Q': True}, root)
 interpretation({'P': True, 'Q': False}, root)
-`
+```
 Example of Program Output
 When you run the program, it will check each formula in the list l and print whether it is well-formed or not. For example:
 ```

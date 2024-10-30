@@ -1,5 +1,3 @@
-readme_content = """# Propositional Formula Evaluator
-
 ## Overview
 This program checks whether a given propositional formula is well-formed and evaluates its truth value based on a specified interpretation. It utilizes tree data structures to represent the formula and processes logical operations.
 

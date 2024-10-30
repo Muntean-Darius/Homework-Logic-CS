@@ -9,7 +9,6 @@ l = [
     '((P⇔Q)⇔(¬(P⇒(¬Q))))'
 ]
 
-correct=[]
 def wff(p):
     k = 0
     t = 0
@@ -65,9 +64,9 @@ def wff(p):
     if k == 0:
         print("Arrangement is correct")
         print("The proposition is a well formed propositional formulae")
-        correct.append(p)
-
-
+        root = tree(p)
+        for pre, fill, node in RenderTree(root):
+            print(f"{pre}{node.name}")
         print()
 
 
@@ -124,6 +123,8 @@ def tree(p):
                 i += 1
 
         i += 1
+    for pre, fill, node in RenderTree(root):
+        print(f"{pre}{node.name}")
     return root
 
 
@@ -231,12 +232,9 @@ for i in l:
         wff(i)
 
 
-print(l[3])
-root = tree(l[3])
-for pre, fill, node in RenderTree(root):
-    print(f"{pre}{node.name}")
 
-interpretation({'P': True, 'Q': True}, root)
-interpretation({'P': True, 'Q': False}, root)
-interpretation({'P': False, 'Q': True}, root)
-interpretation({'P': False, 'Q': False}, root)
+
+# interpretation({'P': True, 'Q': True}, root)
+# interpretation({'P': True, 'Q': False}, root)
+# interpretation({'P': False, 'Q': True}, root)
+# interpretation({'P': False, 'Q': False}, root)

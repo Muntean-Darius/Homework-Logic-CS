@@ -1,5 +1,7 @@
 ## Overview
-This program checks whether a given propositional formula is well-formed and evaluates its truth value based on a specified interpretation. It utilizes tree data structures to represent the formula and processes logical operations.
+This program first transforms relaxed syntax into strict syntax and then checks whether the given propositional formula is well-formed and evaluates its truth value based on a specified interpretation. It utilizes tree data structures to represent the formula and processes logical operations.
+The program also creates a truth table that contains all possible interpretations.
+If the program recieves equivanlence laws in the laws list or consequence laws in the consequence_laws list it creates truth tables for all propositions and determines if the relation holds.
 
 ## Requirements
 - Python 3.6 or higher
@@ -121,4 +123,100 @@ The proposition is a well formed propositional formulae
     └── ¬
         └── P
 ```
+Example of what the program outputs if it recievs a relaxed syntax:
+```
+Relaxed syntax: (P⇒Q)∧¬Q∧¬P
+Strict syntax: (((P⇒Q)∧(¬Q))∧(¬P))
+We check if it has the correct number of binary operators for the number of variables
 
+This proposition has the correct number of binary operators: 4 variables and 3 binary operators
+
+We check if it has the correct number of parentheses for the number of variables
+
+This proposition has the correct number of parentheses: '()'-5 and 5 operators
+
+We check if the proposition has the correct arrangement of elements
+
+Arrangement is correct
+The proposition is a well formed propositional formulae
+⇒
+├── P
+└── Q
+¬
+└── Q
+⇒
+├── P
+└── Q
+¬
+└── Q
+∧
+├── ⇒
+│   ├── P
+│   └── Q
+└── ¬
+    └── Q
+¬
+└── P
+∧
+├── ∧
+│   ├── ⇒
+│   │   ├── P
+│   │   └── Q
+│   └── ¬
+│       └── Q
+└── ¬
+    └── P
+
+P     | Q     | ¬Q    | ¬P    | (P⇒Q) | (P⇒Q)∧(¬Q) | ((P⇒Q)∧(¬Q))∧(¬P)
+----------------------------------------------------------------------
+False | False | True  | True  | True  | True       | True             
+False | True  | False | True  | True  | False      | False            
+True  | False | True  | False | False | False      | False            
+True  | True  | False | False | True  | False      | False
+```
+Example of what the program outputs if it recieves an equivalence relation:
+```
+(F ⇔ G) ∼ (F ⇒ G) ∧ (G ⇒ F)
+(F⇔G)
+F     | G     | (F⇔G)
+---------------------
+False | False | True 
+False | True  | False
+True  | False | False
+True  | True  | True 
+((F⇒G)∧(G⇒F))
+F     | G     | (F⇒G) | (G⇒F) | (F⇒G)∧(G⇒F)
+-------------------------------------------
+False | False | True  | True  | True       
+False | True  | True  | False | False      
+True  | False | False | True  | False      
+True  | True  | True  | True  | True       
+The equivalence is True
+```
+Example of what the program outputs if it recieves a consequence relation:
+```
+Q ∨ R, Q ⇒ ¬P, ¬(R ∧ P) ⊨ ¬P
+Q     | R     | (Q∨R)
+---------------------
+False | False | False
+False | True  | True 
+True  | False | True 
+True  | True  | True 
+P     | Q     | ¬P    | Q⇒(¬P)
+------------------------------
+False | False | True  | True  
+False | True  | True  | True  
+True  | False | False | True  
+True  | True  | False | False 
+P     | R     | (R∧P) | ¬(R∧P)
+------------------------------
+False | False | False | True  
+False | True  | False | True  
+True  | False | False | True  
+True  | True  | True  | False 
+P     | ¬P   
+-------------
+False | True 
+True  | False
+The consequence holds: all interpretations that satisfy the left propositions also satisfy the right proposition.
+```

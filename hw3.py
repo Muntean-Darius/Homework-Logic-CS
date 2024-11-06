@@ -11,13 +11,48 @@ l = [
 ]
 
 laws = [
-    # 'F ∨ (F ∧ G) ∼ F',
-    # 'F ∧ (F ∨ G) ∼ F'
+    "(F ⇔ G) ∼ (F ⇒ G) ∧ (G ⇒ F)",
+    "(F ⇒ G) ∼ (¬F ∨ G)",
+    "F ∨ G ∼ G ∨ F",
+    "F ∧ G ∼ G ∧ F",
+    "F ⇔ G ∼ G ⇔ F",
+    "(F ∨ G) ∨ H ∼ F ∨ (G ∨ H)",
+    "(F ∧ G) ∧ H ∼ F ∧ (G ∧ H)",
+    "(F ⇔ G) ⇔ H ∼ F ⇔ (G ⇔ H)",
+    "F ∨ (G ∧ H) ∼ (F ∨ G) ∧ (F ∨ H)",
+    "F ∧ (G ∨ H) ∼ (F ∧ G) ∨ (F ∧ H)",
+    "(F ∨ G) ⇒ H ∼ (F ⇒ H) ∧ (G ⇒ H)",
+    "(F ∧ G) ⇒ H ∼ (F ⇒ H) ∨ (G ⇒ H)",
+    "F ⇒ (G ∨ H) ∼ (F ⇒ G) ∨ (F ⇒ H)",
+    "F ⇒ (G ∧ H) ∼ (F ⇒ G) ∧ (F ⇒ H)",
+    "(F ∧ G) ⇒ H ∼ F ⇒ (G ⇒ H)",
+    "¬⊤ ∼ ⊥",
+    "¬⊥ ∼ ⊤",
+    "F ∨ ⊥ ∼ F",
+    "F ∧ ⊤ ∼ F",
+    "F ∨ ⊤ ∼ ⊤",
+    "F ∧ ⊥ ∼ ⊥",
+    "⊥ ⇒ F ∼ ⊤",
+    "F ⇒ ⊤ ∼ ⊤",
+    "F ∧ F ∼ F",
+    "F ∨ F ∼ F",
+    "F ∨ (F ∧ G) ∼ F",
+    "F ∧ (F ∨ G) ∼ F",
+    "F ∨ ¬F ∼ ⊤",
+    "F ∧ ¬F ∼ ⊥",
+    "F ⇒ F ∼ ⊤",
+    "¬(¬F) ∼ F",
+    "¬(F ∨ G) ∼ ¬F ∧ ¬G",
+    "¬(F ∧ G) ∼ ¬F ∨ ¬G",
+    "¬(F ⇒ G) ∼ F ∧ (¬G)",
+    "¬(F ⇔ G) ∼ F ⇔ (¬G)",
+    "F ⇒ G ∼ F ⇔ (F ∧ G)",
+    "F ⇒ G ∼ G ⇔ (F ∨ G)",
 ]
 
 consequence_laws=[
-    'Q ∨ R, Q ⇒ ¬P, ¬(R ∧ P) ⊨ ¬P',
-    'P ⇒ Q, Q ⊨ P ∧ Q'
+    # 'Q ∨ R, Q ⇒ ¬P, ¬(R ∧ P) ⊨ ¬P',
+    # 'P ⇒ Q, Q ⊨ P ∧ Q'
 ]
 
 correct_propositions=[]
@@ -422,47 +457,41 @@ def analize_logical_propositions(l):
             print()
             wff(l[i])
 
+
 def equivalence(p):
     print(p)
-    p=p.split('∼')
-    compare=[]
+    p = p.split('∼')
+    compare = []
+
     for i in range(len(p)):
-        p[i]=relaxed_to_strict(shunting_yard(p[i]))
+        p[i] = relaxed_to_strict(shunting_yard(p[i]))
         print(p[i])
-        if len(p[i])>1:
+
+        if len(p[i]) > 1:
             variables, operations = truth_table(p[i])
-            # create_truth_table(variables, operations)
-            compare.append(create_truth_table(variables, operations))
-            print()
-        elif p[i]=='⊥':
-            print(f"{p[i]}     |")
-            print("-------")
-            print("False")
-            compare.append([False])
-        elif p[i]=='⊤':
-            print(f"{p[i]}     |")
-            print("-------")
-            print("True")
-            compare.append([True])
+            truth_values = create_truth_table(variables, operations)
+            compare.append(truth_values)
+        elif p[i] == '⊥':
+            compare.append([False] * len(compare[0]) if len(compare) > 0 else [False])
+        elif p[i] == '⊤':
+            compare.append([True] * len(compare[0]) if len(compare) > 0 else [True])
         else:
-            print(f"{p[i]}     |")
-            print("-------")
-            print("False")
-            print("True ")
-            compare.append([False,True])
+            compare.append([False, True])
 
-    if len(compare[0])==1 and len(compare[1])>1:
-        compare[0].append(compare[0][0])
-    elif len(compare[0])>1 and len(compare[1])==1:
-        compare[1].append(compare[1][0])
+    max_len = max(len(compare[0]), len(compare[1]))
 
-    if len(compare)==2:
-        if compare[0]==compare[1]:
-            print("The equivalence is True")
-        else:
-            print("The equivalence is False")
-        print()
+    for i in range(len(compare)):
+        if len(compare[i]) < max_len:
+            new_list = []
+            for value in compare[i]:
+                new_list.extend([value] * (max_len // len(compare[i])))
+            compare[i] = new_list[:max_len]
 
+    if compare[0] == compare[1]:
+        print("The equivalence is True")
+    else:
+        print("The equivalence is False")
+    print()
 
 def check_consequence(left_propositions, right_proposition):
 

@@ -64,9 +64,7 @@ def wff(p):
     if k == 0:
         print("Arrangement is correct")
         print("The proposition is a well formed propositional formulae")
-        root = tree(p)
-        for pre, fill, node in RenderTree(root):
-            print(f"{pre}{node.name}")
+        tree(p)
         print()
 
 
@@ -231,10 +229,6 @@ for i in l:
         print()
         wff(i)
 
+root=tree(l[0])
+interpretation({'P': True, 'Q': False},root)
 
-
-
-# interpretation({'P': True, 'Q': True}, root)
-# interpretation({'P': True, 'Q': False}, root)
-# interpretation({'P': False, 'Q': True}, root)
-# interpretation({'P': False, 'Q': False}, root)

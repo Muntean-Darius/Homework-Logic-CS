@@ -11,49 +11,51 @@ l = [
 ]
 
 laws = [
-    "(F ⇔ G) ∼ (F ⇒ G) ∧ (G ⇒ F)",
-    "(F ⇒ G) ∼ (¬F ∨ G)",
-    "F ∨ G ∼ G ∨ F",
-    "F ∧ G ∼ G ∧ F",
-    "F ⇔ G ∼ G ⇔ F",
-    "(F ∨ G) ∨ H ∼ F ∨ (G ∨ H)",
-    "(F ∧ G) ∧ H ∼ F ∧ (G ∧ H)",
-    "(F ⇔ G) ⇔ H ∼ F ⇔ (G ⇔ H)",
-    "F ∨ (G ∧ H) ∼ (F ∨ G) ∧ (F ∨ H)",
-    "F ∧ (G ∨ H) ∼ (F ∧ G) ∨ (F ∧ H)",
-    "(F ∨ G) ⇒ H ∼ (F ⇒ H) ∧ (G ⇒ H)",
-    "(F ∧ G) ⇒ H ∼ (F ⇒ H) ∨ (G ⇒ H)",
-    "F ⇒ (G ∨ H) ∼ (F ⇒ G) ∨ (F ⇒ H)",
-    "F ⇒ (G ∧ H) ∼ (F ⇒ G) ∧ (F ⇒ H)",
-    "(F ∧ G) ⇒ H ∼ F ⇒ (G ⇒ H)",
-    "¬⊤ ∼ ⊥",
-    "¬⊥ ∼ ⊤",
-    "F ∨ ⊥ ∼ F",
-    "F ∧ ⊤ ∼ F",
-    "F ∨ ⊤ ∼ ⊤",
-    "F ∧ ⊥ ∼ ⊥",
-    "⊥ ⇒ F ∼ ⊤",
-    "F ⇒ ⊤ ∼ ⊤",
-    "F ∧ F ∼ F",
-    "F ∨ F ∼ F",
-    "F ∨ (F ∧ G) ∼ F",
-    "F ∧ (F ∨ G) ∼ F",
-    "F ∨ ¬F ∼ ⊤",
-    "F ∧ ¬F ∼ ⊥",
-    "F ⇒ F ∼ ⊤",
-    "¬(¬F) ∼ F",
-    "¬(F ∨ G) ∼ ¬F ∧ ¬G",
-    "¬(F ∧ G) ∼ ¬F ∨ ¬G",
-    "¬(F ⇒ G) ∼ F ∧ (¬G)",
-    "¬(F ⇔ G) ∼ F ⇔ (¬G)",
-    "F ⇒ G ∼ F ⇔ (F ∧ G)",
-    "F ⇒ G ∼ G ⇔ (F ∨ G)",
+    # "(F ⇔ G) ∼ (F ⇒ G) ∧ (G ⇒ F)",
+    # "(F ⇒ G) ∼ (¬F ∨ G)",
+    # "F ∨ G ∼ G ∨ F",
+    # "F ∧ G ∼ G ∧ F",
+    # "F ⇔ G ∼ G ⇔ F",
+    # "(F ∨ G) ∨ H ∼ F ∨ (G ∨ H)",
+    # "(F ∧ G) ∧ H ∼ F ∧ (G ∧ H)",
+    # "(F ⇔ G) ⇔ H ∼ F ⇔ (G ⇔ H)",
+    # "F ∨ (G ∧ H) ∼ (F ∨ G) ∧ (F ∨ H)",
+    # "F ∧ (G ∨ H) ∼ (F ∧ G) ∨ (F ∧ H)",
+    # "(F ∨ G) ⇒ H ∼ (F ⇒ H) ∧ (G ⇒ H)",
+    # "(F ∧ G) ⇒ H ∼ (F ⇒ H) ∨ (G ⇒ H)",
+    # "F ⇒ (G ∨ H) ∼ (F ⇒ G) ∨ (F ⇒ H)",
+    # "F ⇒ (G ∧ H) ∼ (F ⇒ G) ∧ (F ⇒ H)",
+    # "(F ∧ G) ⇒ H ∼ F ⇒ (G ⇒ H)",
+    # "¬⊤ ∼ ⊥",
+    # "¬⊥ ∼ ⊤",
+    # "F ∨ ⊥ ∼ F",
+    # "F ∧ ⊤ ∼ F",
+    # "F ∨ ⊤ ∼ ⊤",
+    # "F ∧ ⊥ ∼ ⊥",
+    # "⊥ ⇒ F ∼ ⊤",
+    # "F ⇒ ⊤ ∼ ⊤",
+    # "F ∧ F ∼ F",
+    # "F ∨ F ∼ F",
+    # "F ∨ (F ∧ G) ∼ F",
+    # "F ∧ (F ∨ G) ∼ F",
+    # "F ∨ ¬F ∼ ⊤",
+    # "F ∧ ¬F ∼ ⊥",
+    # "F ⇒ F ∼ ⊤",
+    # "¬(¬F) ∼ F",
+    # "¬(F ∨ G) ∼ ¬F ∧ ¬G",
+    # "¬(F ∧ G) ∼ ¬F ∨ ¬G",
+    # "¬(F ⇒ G) ∼ F ∧ (¬G)",
+    # "¬(F ⇔ G) ∼ F ⇔ (¬G)",
+    # "F ⇒ G ∼ F ⇔ (F ∧ G)",
+    # "F ⇒ G ∼ G ⇔ (F ∨ G)",
 ]
 
 consequence_laws=[
     # 'Q ∨ R, Q ⇒ ¬P, ¬(R ∧ P) ⊨ ¬P',
-    # 'P ⇒ Q, Q ⊨ P ∧ Q'
+    # # 'P ⇒ Q, Q ⊨ P ∧ Q'
 ]
+
+arguements=[[0,0,0],[0,1,0],[1,0,0],[1,1,0]]
 
 correct_propositions=[]
 
@@ -543,9 +545,24 @@ def consequence(p):
     p[1]=relaxed_to_strict(shunting_yard(p[1]))
     check_consequence(p[0], p[1])
 
+def truth_to_formula(n,arguements):
+    formula = []
+    for i in arguements:
+        variables=[]
+        for j in range(n):
+            if i[j]==1:
+                variables.append(f"{chr(65+j)}")
+            else:
+                variables.append(f"¬{chr(65+j)}")
+        formula.append("(" + "∧".join(variables) + ")")
+
+    if formula:
+        return "∨".join(formula)
 
 analize_logical_propositions(l)
 for i in laws:
     equivalence(i)
 for i in consequence_laws:
     consequence(i)
+
+print(truth_to_formula(3,arguements))
